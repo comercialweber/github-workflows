@@ -1,0 +1,29 @@
+name: Trivy scan
+
+on:
+  workflow_call:
+    inputs:
+      docker_image:
+        required: true
+        type: string
+        description: "Docker image uri"
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@0.20.0
+        with:
+          image-ref: ${{ inputs.docker_image }}
+          scan-type: "image"
+          format: "json"
+          exit-code: 0
+          ouput: "vulnerabilities.json"
+          severity: UNKNOWN,CRITICAL,MEDIUM,HIGH,LOW
+
+      - name: Vulnerabilities artifact upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: trivy
+          path: vulnerabilities.json
