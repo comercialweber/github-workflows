@@ -12,6 +12,10 @@ jobs:
   scan:
     runs-on: ubuntu-latest
     steps:
+      - name: Check Docker image URI
+        id: check-docker-image
+        run: |
+          echo "${{ inputs.docker_image }}"
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
         with:
