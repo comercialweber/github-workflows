@@ -19,7 +19,7 @@ jobs:
           scan-type: "image"
           format: "json"
           exit-code: 0
-          ouput: "vulnerabilities.json"
+          output: "vulnerabilities.json"
           severity: UNKNOWN,CRITICAL,MEDIUM,HIGH,LOW
 
       - name: Vulnerabilities artifact upload
