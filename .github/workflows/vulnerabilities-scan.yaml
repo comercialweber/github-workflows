@@ -9,7 +9,7 @@ on:
         description: "Docker image uri"
 
 jobs:
-  scan:
+  scan-docker-image:
     runs-on: ubuntu-latest
     steps:
       - name: Check Docker image URI
