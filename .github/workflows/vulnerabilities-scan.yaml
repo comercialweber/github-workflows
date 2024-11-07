@@ -19,7 +19,7 @@ jobs:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
         with:
-          image-ref: ${{ inputs.docker_image }}
+          image-ref: ${{ secrets.DOCKERHUB_USERNAME }}/${{ inputs.docker_image }}
           scan-type: "image"
           format: "json"
           exit-code: 0
