@@ -1,1 +1,36 @@
+name: Check Node.js Application Workflow
 
+on:
+  workflow_call:
+     outputs:
+      new_release_version:
+        description: "New released tag version"
+        value: ${{ jobs.semantic-release.outputs.new_release_version }}
+
+jobs:
+  semantic-release:
+    runs-on: ubuntu-latest
+    outputs:
+      new_release_version: ${{ steps.release.outputs.new_release_version }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.17.0"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run lint
+        run: npm run lint
+
+      - name: Run tests
+        run: npm run test
+
+      - name: Pre-build
+        run: npm run build
