@@ -15,10 +15,10 @@ on:
         required: true
         type: string
         description: "Command to lint code"
-      run_tests_command:
+      run_test_command:
         required: true
         type: string
-        description: "Command to run tests"
+        description: "Command to run test"
       run_build_command:
         required: true
         type: string
