@@ -2,16 +2,30 @@ name: Check Node.js Application Workflow
 
 on:
   workflow_call:
-     outputs:
-      new_release_version:
-        description: "New released tag version"
-        value: ${{ jobs.semantic-release.outputs.new_release_version }}
-
+    inputs:
+      node_version:
+        required: true
+        type: string
+        description: "Node.js version"
+      run_install_dependencies_command:
+        required: true
+        type: string
+        description: "Command to install dependencies"
+      run_lint_command:
+        required: true
+        type: string
+        description: "Command to lint code"
+      run_tests_command:
+        required: true
+        type: string
+        description: "Command to run tests"
+      run_build_command:
+        required: true
+        type: string
+        description: "Command to build code"
 jobs:
-  semantic-release:
+  check:
     runs-on: ubuntu-latest
-    outputs:
-      new_release_version: ${{ steps.release.outputs.new_release_version }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,16 +35,16 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "20.17.0"
+          node-version: ${{ inputs.node_version }}
 
       - name: Install dependencies
-        run: npm install
+        run: ${{ inputs.run_install_dependencies_command }}
 
       - name: Run lint
-        run: npm run lint
+        run: ${{ inputs.run_lint_command }}
 
       - name: Run tests
-        run: npm run test
+        run: ${{ inputs.run_tests_command }}
 
       - name: Pre-build
-        run: npm run build
+        run: ${{ inputs.run_build_command }}
