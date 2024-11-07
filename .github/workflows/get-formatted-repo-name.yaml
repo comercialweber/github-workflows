@@ -1,0 +1,20 @@
+name: Get Formatted Repository Name Workflow
+
+on:
+  workflow_call:
+     outputs:
+      repo_name:
+        description: "Formatted repository name"
+        value: ${{ jobs.get-formatted-repo-name.outputs.repo_name }}
+
+jobs:
+  get-formatted-repo-name:
+    runs-on: ubuntu-latest
+    outputs:
+      repo_name: ${{ steps.get_formatted_repo_name.outputs.repo_name }}
+    steps:
+      - name: Get formatted repo name
+        id: get_formatted_repo_name
+        run: |
+          repo_name=$(echo "${{ github.repository }}" | sed 's/\//-/g')
+          echo "repo_name=$repo_name" >> $GITHUB_OUTPUT
